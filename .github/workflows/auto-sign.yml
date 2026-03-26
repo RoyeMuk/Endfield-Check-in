@@ -1,5 +1,4 @@
 name: Auto Sign
-name: Auto Sign
 
 on:
   push:
@@ -26,4 +25,4 @@ jobs:
           EXIT_WHEN_FAIL: ${{ vars.EXIT_WHEN_FAIL }}
           SC3_SENDKEY: ${{ secrets.SC3_SENDKEY }}
           SC3_UID: ${{ secrets.SC3_UID }}
-        run: python "天空之境自动签名/main.py"
+        run: python "skyland-auto-sign/main.py"
