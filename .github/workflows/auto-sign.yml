@@ -1,4 +1,5 @@
 name: Auto Sign
+name: Auto Sign
 
 on:
   push:
@@ -19,11 +20,10 @@ jobs:
         with:
           python-version: '3.10'
 
-      # 这里直接跳过安装依赖，运行脚本
       - name: Run auto sign
         env:
           TOKEN: ${{ secrets.TOKEN }}
           EXIT_WHEN_FAIL: ${{ vars.EXIT_WHEN_FAIL }}
           SC3_SENDKEY: ${{ secrets.SC3_SENDKEY }}
           SC3_UID: ${{ secrets.SC3_UID }}
-        run: python main.py
+        run: python "天空之境自动签名/main.py"
