@@ -19,10 +19,15 @@ jobs:
         with:
           python-version: '3.10'
 
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r skyland-auto-sign/requirements.txt
+
       - name: Run auto sign
         env:
           TOKEN: ${{ secrets.TOKEN }}
           EXIT_WHEN_FAIL: ${{ vars.EXIT_WHEN_FAIL }}
           SC3_SENDKEY: ${{ secrets.SC3_SENDKEY }}
           SC3_UID: ${{ secrets.SC3_UID }}
-        run: python "skyland-auto-sign/main.py"
+        run: python skyland-auto-sign/src/main.py
