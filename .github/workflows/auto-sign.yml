@@ -1,20 +1,19 @@
 name: Auto Sign
 
 on:
-  push:
-    branches: [ main ]
-  workflow_dispatch:
+  workflow_dispatch:  # 保留手动触发
   schedule:
-    - cron: '0 0 * * *'
+    # 每日1次
+    - cron: '15 6 * * *'
+
+#=防止并发运行
+concurrency:
+  group: auto-sign
+  cancel-in-progress: true
 
 jobs:
   sign:
     runs-on: ubuntu-latest
-    # 失败自动重试配置
-    strategy:
-      fail-fast: false
-      matrix:
-        retry: [1, 2, 3]
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
