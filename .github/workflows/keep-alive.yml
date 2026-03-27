@@ -1,0 +1,36 @@
+name: Keep Repository Alive
+
+on:
+  schedule:
+# 每周一北京时间早上8点自动运行，足够保证仓库活跃，你也可以自行修改时间
+    - cron: '0 0 * * 1'
+  workflow_dispatch: # 保留手动触发，方便测试
+
+jobs:
+  keep-alive:
+    runs-on: ubuntu-latest
+    permissions:
+# 关键配置：给脚本写入仓库的权限
+      contents: write
+
+    steps:
+      - name: 拉取仓库代码
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: 配置Git提交身份
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: 更新时间戳文件（核心修改操作）
+        run: |
+          # 每次运行都会更新这个文件的时间，产生新的提交记录
+          echo "仓库最后保活时间: $(date +"%Y-%m-%d %H:%M:%S") 北京时间" > keep-alive.log
+
+      - name: 提交并推送修改到仓库
+        run: |
+          git add .
+          # 只有文件有变化才提交，避免无修改时报错
+          git diff --quiet && git diff --staged --quiet || (git commit -m "chore: 自动保活更新" && git push)
