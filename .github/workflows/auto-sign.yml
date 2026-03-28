@@ -4,7 +4,7 @@ on:
   workflow_dispatch:  # 保留手动触发
   schedule:
     # 每日1次
-    - cron: '15 6 * * *'
+    - cron: '0 3 * * *'
 
 #=防止并发运行
 concurrency:
